@@ -15,20 +15,36 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::paginate(10);
-        return response()->json([
-            'status'=> 200,
-            'products'=>$products,
-        ]);
+        try {
+            $products = Product::paginate(10);
+            return response()->json([
+                'success' => true,
+                'message' => 'Products fetch successfully',
+                'products' => $products,
+            ], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Internal Server Error',
+                'message' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function singleProduct($id)
     {
-        $product = Product::find($id);
-        return response()->json([
-            'status' => 200,
-            'product' => $product,
-        ]);
+        try {
+            $product = Product::findOrFail($id);
+            return response()->json([
+                'success' => true,
+                'message' => 'Product found successfully',
+                'product' => $product,
+            ], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Product not found',
+                'message' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function addToCart(Request $request)
@@ -49,15 +65,23 @@ class ProductController extends Controller
 
     public function cartList(Request $request)
     {
-        $input = $request->all();
-        $carts = Cart::where('user_id', $input['user_id'])->with(['product'])->get();
-        $cartCount = Cart::where('user_id', $input['user_id'])->count();
+        try {
+            $input = $request->all();
+            $carts = Cart::where('user_id', $input['user_id'])->with(['product'])->get();
+            $cartCount = Cart::where('user_id', $input['user_id'])->count();
 
-        return response()->json([
-            'status'=> 200,
-            'cart_count' => $cartCount,
-            'carts' => $carts,
-        ]);
+            return response()->json([
+                'success'=> true,
+                'message' => 'Cart data fetch successfully',
+                'cart_count' => $cartCount,
+                'carts' => $carts,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Product not found',
+                'message' => $e->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function cartUpdate(Request $request, $id)
@@ -104,4 +128,15 @@ class ProductController extends Controller
             'products'=>$products,
         ]);
     }
+
+    // return response()->json([
+    //     'error' => 'Name is required'
+    // ], Response::HTTP_BAD_REQUEST);
+    // HTTP_OK = 200;
+    // HTTP_CREATED = 201;
+    // HTTP_BAD_REQUEST = 400;
+    // HTTP_UNAUTHORIZED = 401;
+    // HTTP_FORBIDDEN = 403;
+    // HTTP_NOT_FOUND = 404;
+    // HTTP_REQUEST_TIMEOUT = 408;
 }

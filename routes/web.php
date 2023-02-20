@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
+});
+
+Auth::routes();
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('admin/home', [HomeController::class, 'adminHome'])->name('admin.home')->middleware('is_admin');
+
+Route::prefix('admin')->namespace('Admin')->group(static function() {
+    Route::middleware('auth')->group(static function () {
+        Route::resource('user', '\App\Http\Controllers\Admin\UserController');
+    });
 });
