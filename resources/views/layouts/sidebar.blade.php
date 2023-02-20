@@ -347,7 +347,7 @@
                         <a href="{{ route('user.index') }}"> Users </a>
                     </li>
                     <li>
-                        <a href="user_account_setting.html"> Account Settings </a>
+                        <a href="{{ route('user.create') }}"> Create User </a>
                     </li>
                 </ul>
             </li>

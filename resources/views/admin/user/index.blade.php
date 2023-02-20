@@ -11,34 +11,31 @@
                     <table id="html5-extension" class="table table-hover non-hover" style="width:100%">
                         <thead>
                             <tr>
+                                <th>S.No</th>
                                 <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
-                                <th>Extn.</th>
-                                <th>Avatar</th>
+                                <th>Email</th>
+                                <!-- <th>Phone</th> -->
+                                <th>Status</th>
+                                <!-- <th>Image</th> -->
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($users as $user)
                             <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
-                                <td>5421</td>
-                                <td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <!-- <td></td> -->
+                                <td>{{ $user->status }}</td>
+                                
+                                <!-- <td>
                                     <div class="d-flex">
                                         <div class="usr-img-frame mr-2 rounded-circle">
-                                            <img alt="avatar" class="img-fluid rounded-circle" src="assets/img/boy.png">
+                                            <img alt="avatar" class="img-fluid rounded-circle" src="{{ asset('asset/assets/img/boy.png') }}">
                                         </div>
                                     </div>
-                                </td>
+                                </td> -->
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-dark btn-sm">Open</button>

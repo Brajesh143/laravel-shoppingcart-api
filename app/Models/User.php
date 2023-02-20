@@ -33,4 +33,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password'
     ];
+
+    public function getUser() {
+        $users = User::where('is_admin', '!=', '1')->orWhereNull('is_admin')->get();
+
+        return $users;
+    }
 }

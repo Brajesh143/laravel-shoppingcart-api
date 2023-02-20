@@ -15,8 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('is_admin', '!=', '1')->orWhereNull('is_admin')->get();
-        
+        $users = User::getUser();
+
         $data = [
             'users' => $users
         ];
@@ -31,7 +31,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.user.create');
     }
 
     /**
